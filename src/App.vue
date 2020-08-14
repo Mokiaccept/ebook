@@ -5,14 +5,14 @@
 </template>
 
 <script>
-  export default {
-  }
-  document.addEventListener('DOMContentLoaded', () => {
-    let fontSize = window.innerWidth / 10
-    fontSize = fontSize > 50 ? 50 : fontSize
-    const html = document.querySelector('html')
-    html.style.fontSize = fontSize + 'px'
-  })
+export default {
+}
+document.addEventListener('DOMContentLoaded', () => {
+  let fontSize = window.innerWidth / 10
+  fontSize = fontSize > 50 ? 50 : fontSize
+  const html = document.querySelector('html')
+  html.style.fontSize = fontSize + 'px'
+})
 </script>
 
 <style>
@@ -25,7 +25,6 @@
     z-index: 0;
     width: 100%;
     height: 100%;
-    background: #7d8188;
     overflow: hidden;
   }
 </style>

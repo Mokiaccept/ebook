@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 // import i18n from './lang'
 import '@/assets/styles/global.scss'
+import '@/assets/styles/iconfont.css'
 
 Vue.config.productionTip = false
 
