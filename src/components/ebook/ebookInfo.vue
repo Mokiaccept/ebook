@@ -48,6 +48,7 @@ export default {
       box-sizing: border-box;
       border-radius: px2rem(20);
       box-shadow: 0 px2rem(8) px2rem(8) rgba(0, 0, 0, .8);
+      overflow: hidden;
       .cover-wrapper {
         height: 0;
         width: 100%;
@@ -64,11 +65,13 @@ export default {
         @include center;
         font-size: px2rem(24);
         margin-top: px2rem(10);
+        @include ellipsis;
       }
       .creator {
         margin-top: px2rem(10);
         @include center;
         font-size: px2rem(20);
+        @include ellipsis;
       }
     }
     .mask {
