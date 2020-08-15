@@ -1,6 +1,6 @@
 import { FONT_SIZE_LIST, themeList } from './bookConfig'
 import { mapGetters, mapActions } from 'vuex'
-import { px2rem } from './utils'
+import { px2rem, flatten } from './utils'
 
 export const ebookMixin = {
   data () {
@@ -22,7 +22,8 @@ export const ebookMixin = {
       'locations',
       'bookAvailable',
       'navigation',
-      'section'
+      'section',
+      'contentList'
     ]),
     minimumFontSize () {
       return px2rem(this.fontList[0].fontSize) + 'rem'
@@ -32,8 +33,8 @@ export const ebookMixin = {
     },
     getSectionName () {
       if (this.section) {
-        if (this.navigation) {
-          return this.navigation.toc[this.section].label
+        if (this.contentList.length) {
+          return this.contentList[this.section].label
         }
       }
     }
@@ -51,7 +52,8 @@ export const ebookMixin = {
       'setLocations',
       'setBookAvailable',
       'setNavigation',
-      'setSection'
+      'setSection',
+      'setContentList'
     ]),
     toggleHeaderAndMenu () {
       this.setIfShowHeaderAndMenu(!this.ifShowHeaderAndMenu)
@@ -124,7 +126,7 @@ export const ebookMixin = {
       }
     },
     nextSection () {
-      if (this.section + 1 > this.navigation.length - 1) return
+      if (this.section + 1 > this.contentList.length - 1) return
       this.setSection(this.section + 1).then(() => {
         this.displaySection()
       })
@@ -140,6 +142,12 @@ export const ebookMixin = {
       if (section && section.href) {
         this.jumpTo(section.href)
       }
+    },
+    initContentList () {
+      console.log(Array.prototype.slice.call(this.navigation.toc))
+      this.setContentList(flatten(Array.prototype.slice.call(this.navigation.toc))).then(() => {
+        console.log(this.contentList)
+      })
     }
   }
 }

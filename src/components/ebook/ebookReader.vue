@@ -11,7 +11,7 @@ import EbookTitle from '@/components/ebook/ebookTitle'
 import EbookFooter from '@/components/ebook/ebookFooter'
 import Epub from 'epubjs'
 import { ebookMixin } from '@/utils/mixin'
-const DOWNLOAD_URL = '/wkz.epub'
+const DOWNLOAD_URL = '/ml.epub'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
@@ -36,8 +36,9 @@ export default {
         this.changeFontSize(this.defaultFontSize)
       })
       this.book.ready.then(() => {
-        this.setNavigation(this.book.navigation)
-        console.log(this.navigation)
+        return this.setNavigation(this.book.navigation)
+      }).then(() => {
+        this.initContentList()
         return this.book.locations.generate()
       }).then(result => {
         this.setLocations(this.book.locations)

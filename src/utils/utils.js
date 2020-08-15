@@ -32,3 +32,11 @@ export function clearCss () {
     }
   }
 }
+
+export function flatten (item, level = 0) {
+  let ret = []
+  for (let i = 0; i < item.length; i++) {
+    ret = ret.concat({ href: item[i].href, label: item[i].label, level }, flatten(item[i].subitems, level + 1))
+  }
+  return ret
+}

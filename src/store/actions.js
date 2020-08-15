@@ -34,6 +34,9 @@ const actions = {
   },
   setSection: ({ commit }, section) => {
     return commit('SET_SECTION', section)
+  },
+  setContentList: ({ commit }, contentList) => {
+    return commit('SET_CONTENT_LIST', contentList)
   }
 }
 

@@ -29,6 +29,7 @@ export default {
     .reader-title {
       font-size: px2rem(16);
       color: #6d7178;
+      @include ellipsis;
     }
   }
 </style>

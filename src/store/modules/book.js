@@ -11,7 +11,8 @@ const book = {
     locations: null,
     bookAvailable: false,
     navigation: null,
-    section: 1
+    section: 1,
+    contentList: []
   },
   mutations: {
     SET_IF_SHOW_HEADER_AND_MENU: (state, ifShowHeaderAndMenu) => {
@@ -49,6 +50,9 @@ const book = {
     },
     SET_SECTION: (state, section) => {
       state.section = section
+    },
+    SET_CONTENT_LIST: (state, contentList) => {
+      state.contentList = contentList
     }
   }
 }

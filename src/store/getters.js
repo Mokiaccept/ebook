@@ -10,6 +10,7 @@ const getters = {
   locations: state => state.book.locations,
   bookAvailable: state => state.book.bookAvailable,
   navigation: state => state.book.navigation,
-  section: state => state.book.section
+  section: state => state.book.section,
+  contentList: state => state.book.contentList
 }
 export default getters

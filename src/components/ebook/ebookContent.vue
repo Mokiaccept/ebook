@@ -3,8 +3,8 @@
     <transition name="slide-right">
       <div class="content" v-if="chooseId === 0">
         <scroll class="content-list" v-if="bookAvailable" :top="0" :bottom="0" :initPosition="initPosition">
-          <div class="content-item" v-for="(item, index) in navigation.toc" :key="index" @click="jumpTo(item.href, hideHeaderAndMenu)" ref="item">
-            <span class="text" :class="{'current': section === index}">{{item.label}}</span>
+          <div class="content-item" v-for="(item, index) in contentList" :key="index" @click="jumpTo(item.href, hideHeaderAndMenu)" ref="item">
+            <div class="text" :class="{'current': section === index}" :style="{paddingLeft: indent(item.level)}">{{item.label}}</div>
           </div>
         </scroll>
         <div class="loading" v-else>目录加载中...</div>
@@ -20,6 +20,7 @@
 <script>
 import Scroll from '@/components/Scroll'
 import { ebookMixin } from '@/utils/mixin'
+import { px2rem } from '@/utils/utils'
 export default {
   mixins: [ebookMixin],
   components: {
@@ -27,7 +28,13 @@ export default {
   },
   data () {
     return {
-      initPosition: { x: 0, y: 0 }
+      initPosition: { x: 0, y: 0 },
+      list: []
+    }
+  },
+  methods: {
+    indent (level) {
+      return px2rem(level * 20) + 'rem'
     }
   },
   updated () {
@@ -58,6 +65,7 @@ export default {
         height: 100%;
         .content-item {
           width: 100%;
+          box-sizing: border-box;
           padding: px2rem(10) px2rem(15);
           border-bottom: px2rem(1) solid #f4f4f4;
           overflow: hidden;
@@ -65,6 +73,9 @@ export default {
             font-size: px2rem(16);
             width: 100%;
             color: #333;
+            height: px2rem(30);
+            line-height: px2rem(30);
+            box-sizing: border-box;
             @include ellipsis;
             &.current {
               color: rgb(81, 79, 194);
