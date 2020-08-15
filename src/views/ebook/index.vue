@@ -4,9 +4,9 @@
     <router-view></router-view>
     <ebook-menu></ebook-menu>
     <div class="mask">
-      <div class="mask-left"></div>
+      <div class="mask-left" @click="prevPage"></div>
       <div class="mask-middle" @click="toggleHeaderAndMenu"></div>
-      <div class="mask-right"></div>
+      <div class="mask-right" @click="nextPage"></div>
     </div>
   </div>
 </template>
@@ -38,17 +38,14 @@ export default {
     .mask-left {
       width: px2rem(90);
       height: 100%;
-      background: orange;
     }
     .mask-middle {
       flex: 1;
       height: 100%;
-      background: red;
       z-index: 100;
     }
     .mask-right {
       width: px2rem(90);
-      background: yellow;
     }
   }
 </style>

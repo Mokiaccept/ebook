@@ -13,6 +13,27 @@ const actions = {
   },
   setProgress: ({ commit }, progress) => {
     return commit('SET_PROGRESS', progress)
+  },
+  setBook: ({ commit }, book) => {
+    return commit('SET_BOOK', book)
+  },
+  setRendition: ({ commit }, rendition) => {
+    return commit('SET_RENDITION', rendition)
+  },
+  setThemes: ({ commit }, themes) => {
+    return commit('SET_THEMES', themes)
+  },
+  setLocations: ({ commit }, locations) => {
+    return commit('SET_LOCATIONS', locations)
+  },
+  setBookAvailable: ({ commit }, available) => {
+    return commit('SET_BOOK_AVAILABLE', available)
+  },
+  setNavigation: ({ commit }, navigation) => {
+    return commit('SET_NAVIGATION', navigation)
+  },
+  setSection: ({ commit }, section) => {
+    return commit('SET_SECTION', section)
   }
 }
 

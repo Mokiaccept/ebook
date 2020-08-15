@@ -1,8 +1,8 @@
 <template>
   <div class="ebook-menu-wrapper">
+    <ebook-content></ebook-content>
     <transition name="slide-up">
-      <ebook-slide v-if="chooseId === 0"></ebook-slide>
-      <ebook-setting-progress v-else-if="chooseId === 1"></ebook-setting-progress>
+      <ebook-setting-progress v-if="chooseId === 1"></ebook-setting-progress>
       <ebook-setting-theme v-else-if="chooseId === 2"></ebook-setting-theme>
       <ebook-setting-font v-else-if="chooseId === 3"></ebook-setting-font>
     </transition>
@@ -18,18 +18,18 @@
 </template>
 
 <script>
-import EbookSlide from '@/components/ebook/ebookSlide.vue'
 import EbookSettingProgress from '@/components/ebook/ebookSettingProgress.vue'
 import EbookSettingTheme from '@/components/ebook/ebookSettingTheme.vue'
 import EbookSettingFont from '@/components/ebook/ebookSettingFont.vue'
+import EbookContent from '@/components/ebook/ebookContent.vue'
 import { ebookMixin } from '@/utils/mixin'
 export default {
   mixins: [ebookMixin],
   components: {
-    EbookSlide,
     EbookSettingFont,
     EbookSettingProgress,
-    EbookSettingTheme
+    EbookSettingTheme,
+    EbookContent
   }
 }
 

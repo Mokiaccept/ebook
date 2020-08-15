@@ -2,7 +2,7 @@
   <div class="ebook-setting-progress-wrapper">
     <div class="setting-progress">
       <div class="progress-wrapper">
-        <div class="iconfont icon-left">&#xe600;</div>
+        <div class="iconfont icon-left" @click="prevSection">&#xe600;</div>
         <input class="progress" type="range"
                 max="100"
                 min="0"
@@ -10,12 +10,13 @@
                 @input="onProgressInput($event.target.value)"
                 @change="changeProgress($event.target.value)"
                 :value="progress"
+                :disabled="!bookAvailable"
                 ref="progress">
-        <div class="iconfont icon-right">&#xe601;</div>
+        <div class="iconfont icon-right" @click="nextSection">&#xe601;</div>
       </div>
       <div class="text-wrapper">
-        <span>{{progress + '%'}}</span>
-        <!-- <span>{{bookAvailable ? progress + '%' : '加载中...'}}</span> -->
+        <!-- <span>{{progress + '%'}}</span> -->
+        <span>{{bookAvailable ? progress + '%' : '加载中...'}}</span>
       </div>
     </div>
   </div>
@@ -33,6 +34,11 @@ export default {
   },
   mounted () {
     this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
+  },
+  watch: {
+    progress () {
+      this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
+    }
   }
 }
 

@@ -2,11 +2,11 @@
   <transition name="slide-down">
     <div class="ebook-header-wrapper">
       <div class="ebook-header">
-        <div class="ebook-header-left">
+        <div class="ebook-header-left" @click="$router.push('/')">
           <span class="iconfont icon-back">&#xe611;</span>
         </div>
         <div class="ebook-header-right">
-          <span class="iconfont icon-shelf">&#xe60a;</span>
+          <span class="iconfont icon-shelf" @click="$router.push('/')">&#xe60a;</span>
           <span class="iconfont icon-more">&#xe657;</span>
         </div>
       </div>

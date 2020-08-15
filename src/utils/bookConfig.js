@@ -25,7 +25,7 @@ export function themeList (vue) {
       style: {
         body: {
           'color': '#4c5059',
-          'background': '#cecece',
+          'background': '#eee',
           'padding-top': `${realPx(48)}px!important`,
           'padding-bottom': `${realPx(48)}px!important`
         },
