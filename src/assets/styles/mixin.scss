@@ -91,4 +91,12 @@ $ratio: 37.5;
 .fade-enter-active, .fade-leave-active {
   transition: all .3s linear;
 }
-
+.scale-enter, .scale-leave-to {
+  transform: scale(0)
+}
+.scale-enter-to, .scale-leave {
+  transform: scale(1)
+}
+.scale-enter-active, .scale-leave-active {
+  transition: all .3s linear;
+}

@@ -11,7 +11,6 @@ import EbookTitle from '@/components/ebook/ebookTitle'
 import EbookFooter from '@/components/ebook/ebookFooter'
 import Epub from 'epubjs'
 import { ebookMixin } from '@/utils/mixin'
-const DOWNLOAD_URL = '/ml.epub'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
@@ -21,7 +20,7 @@ export default {
   },
   methods: {
     initEpub () {
-      this.setBook(new Epub(DOWNLOAD_URL))
+      this.setBook(new Epub(`/${this.$route.params.fileName}.epub`))
       this.setRendition(this.book.renderTo('read', {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -44,11 +43,21 @@ export default {
         this.setLocations(this.book.locations)
         this.setBookAvailable(true)
       })
+      this.book.loaded.metadata.then(metadata => {
+        this.setMetadata(metadata)
+        console.log(metadata)
+      })
+      this.book.loaded.cover.then(cover => {
+        this.book.archive.createUrl(cover).then(url => {
+          this.setCover(url)
+          console.log(url)
+        })
+      })
     }
   },
   mounted () {
+    console.log(`/${this.$route.params.fileName}.epub`)
     this.initEpub()
-    console.log(DOWNLOAD_URL)
   }
 }
 

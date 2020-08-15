@@ -3,6 +3,7 @@
     <ebook-header v-show="ifShowHeaderAndMenu"></ebook-header>
     <router-view></router-view>
     <ebook-menu></ebook-menu>
+    <ebook-info></ebook-info>
     <div class="mask">
       <div class="mask-left" @click="prevPage"></div>
       <div class="mask-middle" @click="toggleHeaderAndMenu"></div>
@@ -14,12 +15,14 @@
 <script>
 import EbookHeader from '@/components/ebook/ebookHeader.vue'
 import EbookMenu from '@/components/ebook/ebookMenu.vue'
+import EbookInfo from '@/components/ebook/ebookInfo.vue'
 import { ebookMixin } from '@/utils/mixin'
 export default {
   mixins: [ebookMixin],
   components: {
     EbookHeader,
-    EbookMenu
+    EbookMenu,
+    EbookInfo
   }
 }
 

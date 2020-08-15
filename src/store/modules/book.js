@@ -12,7 +12,10 @@ const book = {
     bookAvailable: false,
     navigation: null,
     section: 1,
-    contentList: []
+    contentList: [],
+    metadata: null,
+    cover: null,
+    showInfo: false
   },
   mutations: {
     SET_IF_SHOW_HEADER_AND_MENU: (state, ifShowHeaderAndMenu) => {
@@ -53,6 +56,15 @@ const book = {
     },
     SET_CONTENT_LIST: (state, contentList) => {
       state.contentList = contentList
+    },
+    SET_METADATA: (state, metadata) => {
+      state.metadata = metadata
+    },
+    SET_COVER: (state, cover) => {
+      state.cover = cover
+    },
+    SET_SHOW_INFO: (state, showInfo) => {
+      state.showInfo = showInfo
     }
   }
 }

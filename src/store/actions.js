@@ -37,6 +37,15 @@ const actions = {
   },
   setContentList: ({ commit }, contentList) => {
     return commit('SET_CONTENT_LIST', contentList)
+  },
+  setMetadata: ({ commit }, metadata) => {
+    return commit('SET_METADATA', metadata)
+  },
+  setCover: ({ commit }, cover) => {
+    return commit('SET_COVER', cover)
+  },
+  setShowInfo: ({ commit }, showInfo) => {
+    return commit('SET_SHOW_INFO', showInfo)
   }
 }
 

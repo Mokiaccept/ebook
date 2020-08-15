@@ -23,7 +23,10 @@ export const ebookMixin = {
       'bookAvailable',
       'navigation',
       'section',
-      'contentList'
+      'contentList',
+      'metadata',
+      'cover',
+      'showInfo'
     ]),
     minimumFontSize () {
       return px2rem(this.fontList[0].fontSize) + 'rem'
@@ -53,7 +56,10 @@ export const ebookMixin = {
       'setBookAvailable',
       'setNavigation',
       'setSection',
-      'setContentList'
+      'setContentList',
+      'setMetadata',
+      'setCover',
+      'setShowInfo'
     ]),
     toggleHeaderAndMenu () {
       this.setIfShowHeaderAndMenu(!this.ifShowHeaderAndMenu)
@@ -148,6 +154,9 @@ export const ebookMixin = {
       this.setContentList(flatten(Array.prototype.slice.call(this.navigation.toc))).then(() => {
         console.log(this.contentList)
       })
+    },
+    toggleShowInfo () {
+      this.setShowInfo(!this.showInfo)
     }
   }
 }

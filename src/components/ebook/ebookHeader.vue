@@ -7,7 +7,7 @@
         </div>
         <div class="ebook-header-right">
           <span class="iconfont icon-shelf" @click="$router.push('/')">&#xe60a;</span>
-          <span class="iconfont icon-more">&#xe657;</span>
+          <span class="iconfont icon-more" @click="toggleShowInfo">&#xe657;</span>
         </div>
       </div>
     </div>
@@ -15,7 +15,9 @@
 </template>
 
 <script>
+import { ebookMixin } from '@/utils/mixin'
 export default {
+  mixins: [ebookMixin]
 }
 
 </script>
