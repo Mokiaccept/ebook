@@ -1,7 +1,11 @@
 import { FONT_SIZE_LIST, themeList } from './bookConfig'
 import { mapGetters, mapActions } from 'vuex'
 import { px2rem, flatten } from './utils'
-
+import {
+  saveLocation,
+  saveDefaultFontSize,
+  saveDefaultTheme
+} from './localStorage'
 export const ebookMixin = {
   data () {
     return {
@@ -78,6 +82,7 @@ export const ebookMixin = {
       if (this.themes) {
         this.themes.fontSize(fontSize + 'px')
       }
+      saveDefaultFontSize(fontSize)
     },
     switchSetting (id) {
       if (id === this.chooseId) {
@@ -108,6 +113,7 @@ export const ebookMixin = {
     changeTheme (index) {
       this.themes.select(this.themeList[index].name)
       this.setDefaultTheme(index)
+      saveDefaultTheme(index)
     },
     prevPage () {
       this.hideHeaderAndMenu()
@@ -126,6 +132,7 @@ export const ebookMixin = {
     refreshLocation () {
       const currentLocation = this.rendition.currentLocation()
       if (currentLocation.start && this.locations) {
+        saveLocation(this.$route.params.fileName, currentLocation.start.cfi)
         const progress = this.locations.percentageFromCfi(currentLocation.start.cfi)
         this.setProgress(Math.floor(progress * 100))
         this.setSection(currentLocation.start.index)
@@ -150,13 +157,23 @@ export const ebookMixin = {
       }
     },
     initContentList () {
-      console.log(Array.prototype.slice.call(this.navigation.toc))
       this.setContentList(flatten(Array.prototype.slice.call(this.navigation.toc))).then(() => {
-        console.log(this.contentList)
       })
     },
     toggleShowInfo () {
       this.setShowInfo(!this.showInfo)
     }
+  }
+}
+export const shelfMixin = {
+  computed: {
+    ...mapGetters([
+      'shelf'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'setShelf'
+    ])
   }
 }

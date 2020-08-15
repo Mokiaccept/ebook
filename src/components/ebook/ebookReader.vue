@@ -11,6 +11,9 @@ import EbookTitle from '@/components/ebook/ebookTitle'
 import EbookFooter from '@/components/ebook/ebookFooter'
 import Epub from 'epubjs'
 import { ebookMixin } from '@/utils/mixin'
+import {
+  getLocation
+} from '@/utils/localStorage'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
@@ -20,16 +23,18 @@ export default {
   },
   methods: {
     initEpub () {
-      this.setBook(new Epub(`/${this.$route.params.fileName}.epub`))
-      this.setRendition(this.book.renderTo('read', {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        methods: 'default'
-      })).then(() => {
+      this.setBook(new Epub(`/${this.$route.params.fileName}.epub`)).then(() => {
+        return this.setRendition(this.book.renderTo('read', {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          methods: 'default'
+        }))
+      }).then(() => {
         this.rendition.display()
+        const location = getLocation(this.$route.params.fileName)
+        if (location) this.jumpTo(location)
         return this.setThemes(this.rendition.themes)
       }).then(() => {
-        console.log(this.themes)
         this.registerTheme()
         this.changeTheme(this.defaultTheme)
         this.changeFontSize(this.defaultFontSize)
@@ -45,18 +50,15 @@ export default {
       })
       this.book.loaded.metadata.then(metadata => {
         this.setMetadata(metadata)
-        console.log(metadata)
       })
       this.book.loaded.cover.then(cover => {
         this.book.archive.createUrl(cover).then(url => {
           this.setCover(url)
-          console.log(url)
         })
       })
     }
   },
   mounted () {
-    console.log(`/${this.$route.params.fileName}.epub`)
     this.initEpub()
   }
 }

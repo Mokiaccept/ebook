@@ -34,8 +34,8 @@ export default {
     height: 100%;
     .info {
       position: fixed;
-      width: px2rem(180);
-      height: px2rem(300);
+      width: 70%;
+      height: 70%;
       top: 0;
       left: 0;
       right: 0;
@@ -43,7 +43,10 @@ export default {
       margin: auto;
       z-index: 201;
       background: white;
-      @include columnCenter;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
       padding: px2rem(10);
       box-sizing: border-box;
       border-radius: px2rem(20);

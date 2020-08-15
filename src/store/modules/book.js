@@ -1,9 +1,15 @@
+import {
+  getDefaultFontSize,
+  getDefaultTheme
+} from '@/utils/localStorage'
+const defaultTheme = getDefaultTheme() || 0
+const defaultFontSize = getDefaultFontSize() || 20
 const book = {
   state: {
     ifShowHeaderAndMenu: 'false',
-    defaultFontSize: 20,
+    defaultFontSize,
     chooseId: -1,
-    defaultTheme: 0,
+    defaultTheme,
     progress: 0,
     book: null,
     rendition: null,

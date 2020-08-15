@@ -40,7 +40,6 @@ export default {
   updated () {
     if (this.$refs.item && this.$refs.item.length > 0) {
       this.initPosition.y = this.$refs.item[this.section].offsetTop
-      console.log(this.initPosition)
     }
   }
 }
