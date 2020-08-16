@@ -40,7 +40,7 @@ export const ebookMixin = {
     },
     getSectionName () {
       if (this.section) {
-        if (this.contentList.length) {
+        if (this.contentList.length && this.contentList[this.section]) {
           return this.contentList[this.section].label
         }
       }
@@ -130,6 +130,7 @@ export const ebookMixin = {
       }
     },
     refreshLocation () {
+      this.$forceUpdate()
       const currentLocation = this.rendition.currentLocation()
       if (currentLocation.start && this.locations) {
         saveLocation(this.$route.params.fileName, currentLocation.start.cfi)
@@ -158,6 +159,7 @@ export const ebookMixin = {
     },
     initContentList () {
       this.setContentList(flatten(Array.prototype.slice.call(this.navigation.toc))).then(() => {
+        // console.log(this.contentList)
       })
     },
     toggleShowInfo () {
@@ -168,12 +170,18 @@ export const ebookMixin = {
 export const shelfMixin = {
   computed: {
     ...mapGetters([
-      'shelf'
+      'shelfList'
     ])
+  },
+  data () {
+    return {
+      editMode: false,
+      selectedList: []
+    }
   },
   methods: {
     ...mapActions([
-      'setShelf'
+      'setShelfList'
     ])
   }
 }

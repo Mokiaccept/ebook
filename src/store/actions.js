@@ -47,8 +47,8 @@ const actions = {
   setShowInfo: ({ commit }, showInfo) => {
     return commit('SET_SHOW_INFO', showInfo)
   },
-  setShelf: ({ commit }, shelf) => {
-    return commit('SET_SHELF', shelf)
+  setShelfList: ({ commit }, shelfList) => {
+    return commit('SET_SHELF_LIST', shelfList)
   }
 }
 

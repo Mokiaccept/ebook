@@ -15,6 +15,6 @@ const getters = {
   metadata: state => state.book.metadata,
   showInfo: state => state.book.showInfo,
   cover: state => state.book.cover,
-  shelf: state => state.shelf.shelf
+  shelfList: state => state.shelf.shelfList
 }
 export default getters

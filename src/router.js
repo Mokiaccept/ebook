@@ -16,10 +16,16 @@ const routes = [
       path: ':fileName',
       component: resolve => require(['@/components/ebook/ebookReader.vue'], resolve)
     }]
+  },
+  {
+    path: '/group/:id',
+    name: 'group',
+    component: resolve => require(['@/views/shelf/group.vue'], resolve)
   }
 ]
 
 const router = new VueRouter({
+  mode: 'hash',
   routes
 })
 

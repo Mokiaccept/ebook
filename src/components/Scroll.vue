@@ -58,7 +58,6 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "../assets/styles/global";
-
   .scroll-wrapper {
     position: relative;
     z-index: 100;
