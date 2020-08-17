@@ -1,6 +1,6 @@
 import { FONT_SIZE_LIST, themeList } from './bookConfig'
 import { mapGetters, mapActions } from 'vuex'
-import { px2rem, flatten } from './utils'
+import { px2rem, flatten, deepClone } from './utils'
 import {
   saveLocation,
   saveDefaultFontSize,
@@ -171,17 +171,144 @@ export const shelfMixin = {
   computed: {
     ...mapGetters([
       'shelfList'
-    ])
+    ]),
+    groupList () {
+      return this.shelfList.filter(item => {
+        return item.type === 2
+      })
+    }
   },
   data () {
     return {
       editMode: false,
-      selectedList: []
+      selectedList: [],
+      menuList: [
+        {
+          icon: '&#xe60e;',
+          title: '缓存书籍',
+          important: false,
+          emit: 'download'
+        }, {
+          icon: '&#xe602;',
+          title: '移动到...',
+          important: false,
+          emit: 'move'
+        }, {
+          icon: '&#xe60a;',
+          title: '移出书架',
+          important: true,
+          emit: 'delete'
+        }
+      ],
+      showMoveTo: false,
+      showNewGroup: false,
+      popupTitle: '',
+      popupOptions: [],
+      showPopup: false
     }
   },
   methods: {
     ...mapActions([
       'setShelfList'
-    ])
+    ]),
+    onEdit () {
+      this.editMode = true
+    },
+    onCancel () {
+      this.editMode = false
+      this.selectedList = []
+    },
+    onChoose (id) {
+      if (this.selectedList.indexOf(id) > -1) {
+        this.selectedList = this.selectedList.filter(item => {
+          return item !== id
+        })
+      } else {
+        this.selectedList.push(id)
+      }
+    },
+    onMove () {
+      this.showMoveTo = true
+    },
+    onMoveToClose () {
+      this.showMoveTo = false
+    },
+    onNewGroup () {
+      this.onMoveToClose()
+      this.showNewGroup = true
+    },
+    onMoveTo (id) {
+      let list = deepClone(this.shelfList)
+      const books = []
+      list = list.filter(item => {
+        if (item.type === 1) {
+          if (this.selectedList.indexOf(item.id) === -1) {
+            return true
+          } else {
+            books.push(item)
+            return false
+          }
+        } else {
+          item.books = item.books.filter(book => {
+            if (this.selectedList.indexOf(book.id) === -1) {
+              return true
+            } else {
+              books.push(book)
+              return false
+            }
+          })
+          return true
+        }
+      })
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].type === 2 && list[i].id === id) {
+          list[i].books = list[i].books.concat(books)
+        }
+      }
+      this.setShelfList(list)
+      this.onCancel()
+      this.onMoveToClose()
+    },
+    onNewGroupClose () {
+      this.showNewGroup = false
+    },
+    onCreateGroup () {
+    },
+    onDelete () {
+      this.showPopup = true
+      this.popupTitle = '是否将所选书籍移出书架？'
+      this.popupOptions = [{
+        title: '移出',
+        important: true,
+        emit: 'delete'
+      }, {
+        title: '取消',
+        important: false,
+        emit: 'close'
+      }]
+    },
+    hidePopup () {
+      this.showPopup = false
+    },
+    deleteBook (id, cb) {
+      this.setShelfList(this.shelfList.filter(item => {
+        if (item.type === 1) {
+          if (item.id === id) cb(item)
+          return item.id !== id
+        }
+        item.books = item.books.filter(book => {
+          if (book.id === id) cb(book)
+          return book.id !== id
+        })
+        return true
+      }))
+    },
+    deleteSelectedBooks () {
+      this.selectedList.forEach(id => {
+        this.deleteBook(id)
+      })
+      this.hidePopup()
+      this.onCancel()
+    }
   }
 }

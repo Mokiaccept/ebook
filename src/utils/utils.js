@@ -1,3 +1,4 @@
+
 export function px2rem (px) {
   const ratio = 375 / 10
   return px / ratio
@@ -39,4 +40,19 @@ export function flatten (item, level = 0) {
     ret = ret.concat({ href: item[i].href, label: item[i].label, level }, flatten(item[i].subitems, level + 1))
   }
   return ret
+}
+
+export function deepClone (obj) {
+  if (typeof obj !== 'object') return obj
+  let newObj
+  if (obj instanceof Array) {
+    newObj = []
+    for (let i = 0; i < obj.length; i++) {
+      newObj.push(deepClone(obj[i]))
+    }
+  } else {
+    newObj = {}
+    for (const key in obj) newObj[key] = deepClone(obj[key])
+  }
+  return newObj
 }

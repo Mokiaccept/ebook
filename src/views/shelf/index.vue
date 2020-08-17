@@ -27,6 +27,7 @@
       :editMode="editMode"
       :iconActived="selectedList.length > 0"
       @move="onMove"
+      @delete="onDelete"
     ></shelf-menu>
     <move-to
       :groupList="groupList"
@@ -40,6 +41,13 @@
       @close="onNewGroupClose"
       @submit="onCreateGroup"
     ></new-group>
+    <popup
+      :title="popupTitle"
+      :options="popupOptions"
+      :show="showPopup"
+      @delete="deleteSelectedBooks"
+      @close="hidePopup"
+    ></popup>
   </div>
 </template>
 
@@ -52,6 +60,7 @@ import Group from '@/components/shelf/shelfGroup'
 import ShelfMenu from '@/components/shelf/shelfMenu.vue'
 import MoveTo from '@/components/shelf/moveTo.vue'
 import NewGroup from '@/components/shelf/newGroup'
+import Popup from '@/components/shelf/popup'
 export default {
   mixins: [shelfMixin],
   components: {
@@ -61,76 +70,8 @@ export default {
     Group,
     ShelfMenu,
     MoveTo,
-    NewGroup
-  },
-  data () {
-    return {
-      menuList: [
-        {
-          icon: '&#xe60e;',
-          title: '缓存书籍',
-          important: false,
-          emit: 'download'
-        }, {
-          icon: '&#xe602;',
-          title: '移动到...',
-          important: false,
-          emit: 'move'
-        }, {
-          icon: '&#xe60a;',
-          title: '移出书架',
-          important: true,
-          emit: 'delete'
-        }
-      ],
-      showMoveTo: false,
-      showNewGroup: false
-    }
-  },
-  computed: {
-    groupList () {
-      return this.shelfList.filter(item => {
-        return item.type === 2
-      })
-    }
-  },
-  methods: {
-    onEdit () {
-      this.editMode = true
-    },
-    onCancel () {
-      this.editMode = false
-      this.selectedList = []
-    },
-    onChoose (id) {
-      if (this.selectedList.indexOf(id) > -1) {
-        this.selectedList = this.selectedList.filter(item => {
-          return item !== id
-        })
-      } else {
-        this.selectedList.push(id)
-      }
-    },
-    onMove () {
-      this.showMoveTo = true
-    },
-    onMoveToClose () {
-      this.showMoveTo = false
-    },
-    onNewGroup () {
-      this.onMoveToClose()
-      this.showNewGroup = true
-    },
-    onMoveTo (id) {
-    },
-    onNewGroupClose () {
-      this.showNewGroup = false
-    },
-    onCreateGroup () {
-    }
-  },
-  created () {
-    console.log(this.shelfList)
+    NewGroup,
+    Popup
   }
 }
 
