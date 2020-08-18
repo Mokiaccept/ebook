@@ -176,6 +176,11 @@ export const shelfMixin = {
       return this.shelfList.filter(item => {
         return item.type === 2
       })
+    },
+    groupInfo () {
+      return this.shelfList.filter(item => {
+        return String(item.id) === this.$route.params.id
+      })[0]
     }
   },
   data () {
@@ -204,7 +209,8 @@ export const shelfMixin = {
       showNewGroup: false,
       popupTitle: '',
       popupOptions: [],
-      showPopup: false
+      showPopup: false,
+      showGroupName: false
     }
   },
   methods: {
@@ -272,7 +278,28 @@ export const shelfMixin = {
     onNewGroupClose () {
       this.showNewGroup = false
     },
-    onCreateGroup () {
+    onCreateGroup (name) {
+      let max = 0
+      this.shelfList.forEach(item => {
+        if (item.type === 1) {
+          max = Math.max(max, item.id)
+        } else {
+          max = Math.max(max, item.id)
+          item.books.forEach(book => {
+            max = Math.max(max, book.id)
+          })
+        }
+      })
+      this.setShelfList(this.shelfList.concat({
+        id: max + 1,
+        title: name,
+        type: 2,
+        books: []
+      })).then(() => {
+        this.onMoveTo(max + 1)
+      })
+      this.onNewGroupClose()
+      console.log(this.shelfList)
     },
     onDelete () {
       this.showPopup = true
@@ -293,11 +320,11 @@ export const shelfMixin = {
     deleteBook (id, cb) {
       this.setShelfList(this.shelfList.filter(item => {
         if (item.type === 1) {
-          if (item.id === id) cb(item)
+          if (item.id === id && cb) cb(item)
           return item.id !== id
         }
         item.books = item.books.filter(book => {
-          if (book.id === id) cb(book)
+          if (book.id === id && cb) cb(book)
           return book.id !== id
         })
         return true
@@ -309,6 +336,76 @@ export const shelfMixin = {
       })
       this.hidePopup()
       this.onCancel()
+    },
+    onMoveOut () {
+      let list = deepClone(this.shelfList)
+      const books = []
+      list = list.filter(item => {
+        if (item.type === 1) {
+          if (this.selectedList.indexOf(item.id) === -1) {
+            return true
+          } else {
+            books.push(item)
+            return false
+          }
+        } else {
+          item.books = item.books.filter(book => {
+            if (this.selectedList.indexOf(book.id) === -1) {
+              return true
+            } else {
+              books.push(book)
+              return false
+            }
+          })
+          return true
+        }
+      })
+      list = list.concat(books)
+      this.setShelfList(list)
+      this.onCancel()
+      this.onMoveToClose()
+    },
+    onChangeGroup () {
+      this.showPopup = true
+      this.popupTitle = ''
+      this.popupOptions = [{
+        title: '修改分组名',
+        important: false,
+        emit: 'change-name'
+      }, {
+        title: '删除分组',
+        important: true,
+        emit: 'delete-group'
+      }, {
+        title: '取消',
+        important: false,
+        emit: 'close'
+      }]
+    },
+    onChangeName () {
+      this.showGroupName = true
+    },
+    onChangeGroupName (name) {
+      console.log(999)
+      const list = deepClone(this.shelfList)
+      list.forEach(item => {
+        if (item.id === parseInt(this.$route.params.id)) {
+          item.title = name
+        }
+      })
+      this.setShelfList(list)
+      this.onGroupNameClose()
+      this.hidePopup()
+    },
+    onDeleteGroup () {
+      this.setShelfList(this.shelfList.filter(item => {
+        return item.id !== parseInt(this.$route.params.id)
+      }))
+      this.$router.push('/')
+      console.log(this.shelfList)
+    },
+    onGroupNameClose () {
+      this.showGroupName = false
     }
   }
 }

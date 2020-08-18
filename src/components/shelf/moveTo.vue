@@ -4,9 +4,11 @@
       <div class="move-box" v-if="showMoveTo">
         <div class="title">移动书籍</div>
         <div class="new" @click="$emit('new-group')">新建分组</div>
+        <div class="move-out" @click="$emit('move-out')" v-if="moveOut">移出分组</div>
         <div class="items">
           <div class="item" v-for="(item, index) in groupList" :key="index" @click="$emit('move-to', item.id)">
-            {{item.title}}
+            <div class="item-title">{{item.title}}</div>
+            <div class="item-check iconfont" v-if="groupId === item.id">&#xe7f6;</div>
           </div>
         </div>
         <div class="cancel" @click="$emit('close')">取消</div>
@@ -22,7 +24,12 @@
 export default {
   props: {
     groupList: Array,
-    showMoveTo: Boolean
+    showMoveTo: Boolean,
+    groupId: Number,
+    moveOut: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 
@@ -62,6 +69,15 @@ export default {
         font-size: px2rem(14);
         line-height: px2rem(15);
       }
+      .move-out {
+        width: 100%;
+        height: px2rem(45);
+        box-sizing: border-box;
+        padding: px2rem(15) px2rem(20);
+        color: #4aabff;
+        font-size: px2rem(14);
+        line-height: px2rem(15);
+      }
       .items {
         width: 100%;
         .item {
@@ -69,10 +85,22 @@ export default {
           height: px2rem(45);
           box-sizing: border-box;
           padding: px2rem(15) px2rem(20);
-          color: #666;
-          font-size: px2rem(14);
-          line-height: px2rem(15);
+          display: flex;
           border-top: px2rem(1) solid #eee;
+          .item-title {
+            height: 100%;
+            flex: 1;
+            @include left;
+            color: #666;
+            font-size: px2rem(14);
+          }
+          .item-check {
+            height: 100%;
+            width: px2rem(20);
+            @include right;
+            color: #4aabff;
+            font-size: px2rem(14);
+          }
         }
       }
       .cancel {

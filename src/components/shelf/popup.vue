@@ -2,7 +2,7 @@
   <div class="popup-wrapper">
     <transition name="slide-up">
       <div class="popup" v-if="show">
-        <div class="title">{{title}}</div>
+        <div class="title" v-if="title.length > 0">{{title}}</div>
         <div class="option-wrapper">
           <div class="option"
             v-for="(item, index) in options"

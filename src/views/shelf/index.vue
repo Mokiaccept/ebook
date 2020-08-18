@@ -37,7 +37,9 @@
       @move-to="onMoveTo"
     ></move-to>
     <new-group
-      :showNewGroup="showNewGroup"
+      :showInputBox="showNewGroup"
+      :title="'新建分组'"
+      :inputTitle="'分组名：'"
       @close="onNewGroupClose"
       @submit="onCreateGroup"
     ></new-group>
@@ -59,7 +61,7 @@ import Book from '@/components/shelf/shelfBook'
 import Group from '@/components/shelf/shelfGroup'
 import ShelfMenu from '@/components/shelf/shelfMenu.vue'
 import MoveTo from '@/components/shelf/moveTo.vue'
-import NewGroup from '@/components/shelf/newGroup'
+import NewGroup from '@/components/shelf/inputBox'
 import Popup from '@/components/shelf/popup'
 export default {
   mixins: [shelfMixin],

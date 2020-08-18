@@ -1,17 +1,17 @@
 <template>
-  <div class="new-group-wrapper">
+  <div class="input-box-wrapper">
     <transition name="fade">
-      <div class="new-group" v-if="showNewGroup">
-        <div class="title">新建分组</div>
+      <div class="input-box" v-if="showInputBox">
+        <div class="title">{{title}}</div>
         <div class="input-wrapper">
-          <div class="input-title">分组名：</div>
-          <input class="input" type="text" v-model="input"/>
+          <div class="input-title">{{inputTitle}}</div>
+          <input class="input" type="text" v-model="input" v-focus/>
         </div>
         <div class="submit" @click="onSubmit">确定</div>
       </div>
     </transition>
     <transition name="fade">
-      <div class="mask" v-if="showNewGroup" @click="$emit('close')"></div>
+      <div class="mask" v-if="showInputBox" @click="$emit('close')"></div>
     </transition>
   </div>
 </template>
@@ -19,7 +19,9 @@
 <script>
 export default {
   props: {
-    showNewGroup: Boolean
+    showInputBox: Boolean,
+    title: String,
+    inputTitle: String
   },
   data () {
     return {
@@ -37,10 +39,10 @@ export default {
 
 <style lang='scss' scoped>
   @import '@/assets/styles/global';
-  .new-group-wrapper {
+  .input-box-wrapper {
     width: 100%;
     height: 100%;
-    .new-group {
+    .input-box {
       position: fixed;
       width: 60%;
       top: 50%;

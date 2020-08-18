@@ -32,7 +32,7 @@ const shelfList = getShelf() || [
   },
   {
     id: 5,
-    title: '分组1',
+    title: '分组2',
     type: 2,
     books: [
       {

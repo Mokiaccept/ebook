@@ -8,6 +8,12 @@ import '@/assets/styles/iconfont.css'
 
 Vue.config.productionTip = false
 
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus()
+  }
+})
+
 new Vue({
   router,
   store,
