@@ -1,11 +1,12 @@
 <template>
   <div class="group-wrapper" @click="onClick">
     <div class="books-wrapper">
-      <div class="book-item-wrapper">
+      <div class="book-item-wrapper" v-if="getList.length > 0">
         <div class="book-item" v-for="(item, index) in getList" :key="index">
           <div class="cover iconfont">&#xe633;</div>
         </div>
       </div>
+      <div class="empty iconfont" v-else>&#xe60c;</div>
     </div>
     <div class="title">
       {{info.title}}
@@ -64,6 +65,14 @@ export default {
             color: #333;
           }
         }
+      }
+      .empty {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        @include center;
+        color: #333;
+        font-size: px2rem(30);
       }
     }
     .title {

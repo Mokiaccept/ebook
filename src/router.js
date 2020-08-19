@@ -6,7 +6,8 @@ const routes = [
   {
     path: '/',
     name: 'shelf',
-    component: resolve => require(['@/views/shelf/index.vue'], resolve)
+    component: resolve => require(['@/views/shelf/index.vue'], resolve),
+    meta: { key: 1 }
   },
   {
     path: '/ebook',
@@ -15,12 +16,14 @@ const routes = [
     children: [{
       path: ':fileName',
       component: resolve => require(['@/components/ebook/ebookReader.vue'], resolve)
-    }]
+    }],
+    meta: { key: 2 }
   },
   {
     path: '/group/:id',
     name: 'group',
-    component: resolve => require(['@/views/shelf/group.vue'], resolve)
+    component: resolve => require(['@/views/shelf/group.vue'], resolve),
+    meta: { key: 3 }
   }
 ]
 

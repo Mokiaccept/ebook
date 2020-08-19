@@ -11,7 +11,7 @@
       @change-name="onChangeName"
     ></group-header>
     <scroll :top="50" :bottom="0">
-      <div class="item-wrapper">
+      <div class="item-wrapper" v-if="groupInfo.books.length > 0">
         <template v-for="(item, index) in groupInfo.books">
           <book
             :key="index"
@@ -23,6 +23,7 @@
           ></book>
         </template>
       </div>
+      <div class="empty" v-else>当前分组暂无书籍！</div>
     </scroll>
     <group-menu
       :menuList="menuList"
@@ -106,6 +107,13 @@ export default {
         box-sizing: border-box;
         padding: px2rem(15);
       }
+    }
+    .empty {
+      width: 100%;
+      height: 100%;
+      @include center;
+      color: #333;
+      font-size: px2rem(16);
     }
   }
 </style>

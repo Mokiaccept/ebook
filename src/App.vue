@@ -1,11 +1,28 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition :name="transitionName">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      transitionName: ''
+    }
+  },
+  updated () {
+    const href = location.href
+    if (href.indexOf('group') > -1) {
+      this.transitionName = 'slide-left'
+    } else if (href.indexOf('ebook') > -1) {
+      this.transitionName = 'slide-left'
+    } else {
+      this.transitionName = 'slide-right'
+    }
+  }
 }
 document.addEventListener('DOMContentLoaded', () => {
   let fontSize = window.innerWidth / 10
