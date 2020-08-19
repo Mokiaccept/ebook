@@ -17,6 +17,7 @@ import {
   clearLocalStorage
 } from './localStorage'
 export const ebookMixin = {
+  inject: ['reload'],
   data () {
     return {
       fontList: FONT_SIZE_LIST,
@@ -218,6 +219,7 @@ export const ebookMixin = {
   }
 }
 export const shelfMixin = {
+  inject: ['reload'],
   computed: {
     ...mapGetters([
       'shelfList'
@@ -469,6 +471,7 @@ export const shelfMixin = {
     clearCache () {
       clearLocalForage()
       clearLocalStorage()
+      location.reload()
     },
     onDownload () {
     },

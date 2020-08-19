@@ -1,16 +1,22 @@
 <template>
   <div id="app">
     <transition :name="transitionName">
-      <router-view/>
+      <router-view v-if="isRouterAlive"/>
     </transition>
   </div>
 </template>
 
 <script>
 export default {
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
   data () {
     return {
-      transitionName: ''
+      transitionName: '',
+      isRouterAlive: true
     }
   },
   updated () {
@@ -21,6 +27,14 @@ export default {
       this.transitionName = 'slide-left'
     } else {
       this.transitionName = 'slide-right'
+    }
+  },
+  methods: {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(() => {
+        this.isRouterAlive = true
+      })
     }
   }
 }
