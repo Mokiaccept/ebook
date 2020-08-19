@@ -1,6 +1,7 @@
 import { FONT_SIZE_LIST, themeList } from './bookConfig'
 import { mapGetters, mapActions } from 'vuex'
 import { px2rem, flatten, deepClone } from './utils'
+import axios from 'axios'
 import {
   setLocalForage,
   getLocalForage,
@@ -195,7 +196,7 @@ export const ebookMixin = {
         return this.setNavigation(this.book.navigation)
       }).then(() => {
         this.initContentList()
-        return this.book.locations || this.book.locations.generate()
+        return this.book.locations.generate()
       }).then(result => {
         this.setLocations(this.book.locations)
         this.setBookAvailable(true)
@@ -213,7 +214,7 @@ export const ebookMixin = {
       let book
       const fileName = this.$route.params.fileName
       book = await getLocalForage(`${fileName}`)
-      book = book || new Epub(`/${this.$route.params.fileName}.epub`)
+      book = new Epub(book || `/${this.$route.params.fileName}.epub`)
       this.setBook(book).then(this.parseBook)
     }
   }
@@ -325,9 +326,10 @@ export const shelfMixin = {
         }
       }
       this.setShelfList(list)
-      this.saveShelf(list)
+      saveShelf(list)
       this.onCancel()
       this.onMoveToClose()
+      this.toast('书籍移动成功')
     },
     onNewGroupClose () {
       this.showNewGroup = false
@@ -422,6 +424,7 @@ export const shelfMixin = {
       saveShelf(list)
       this.onCancel()
       this.onMoveToClose()
+      this.toast('移除分组成功')
     },
     onChangeGroup () {
       this.showPopup = true
@@ -444,7 +447,6 @@ export const shelfMixin = {
       this.showGroupName = true
     },
     onChangeGroupName (name) {
-      console.log(999)
       const list = deepClone(this.shelfList)
       list.forEach(item => {
         if (item.id === parseInt(this.$route.params.id)) {
@@ -455,6 +457,7 @@ export const shelfMixin = {
       saveShelf(list)
       this.onGroupNameClose()
       this.hidePopup()
+      this.toast('修改成功')
     },
     onDeleteGroup () {
       this.setShelfList(this.shelfList.filter(item => {
@@ -463,7 +466,7 @@ export const shelfMixin = {
         saveShelf(this.shelfList)
       })
       this.$router.push('/')
-      console.log(this.shelfList)
+      this.toast('删除成功')
     },
     onGroupNameClose () {
       this.showGroupName = false
@@ -473,7 +476,43 @@ export const shelfMixin = {
       clearLocalStorage()
       location.reload()
     },
+    download (fileName) {
+      axios.create({
+        baseUrl: '/',
+        method: 'get',
+        responseType: 'blob',
+        timeout: 180 * 1000
+      }).get(`${fileName}.epub`).then(res => {
+        const blob = new Blob([res.data])
+        return setLocalForage(fileName, blob)
+      })
+    },
     onDownload () {
+      this.toast('开始缓存')
+      const books = []
+      this.selectedList.forEach(id => {
+        this.shelfList.forEach(item => {
+          if (item.id === id) {
+            books.push(item)
+          } else if (item.type === 2) {
+            item.books.forEach(book => {
+              if (book.id === id) {
+                books.push(book)
+              }
+            })
+          }
+        })
+      })
+      const tasks = []
+      books.forEach(item => {
+        getLocalForage(item.fileName).then(book => {
+          if (book) return
+          tasks.push(this.download(item.fileName))
+        })
+      })
+      Promise.all(tasks).then(() => {
+        this.toast('缓存成功')
+      })
     },
     toast (text) {
       this.toastText = text
