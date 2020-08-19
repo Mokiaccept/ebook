@@ -13,14 +13,15 @@
     <scroll :top="50" :bottom="0">
       <div class="item-wrapper" v-if="groupInfo.books.length > 0">
         <template v-for="(item, index) in groupInfo.books">
-          <book
-            :key="index"
-            :info="item"
-            class="item"
-            :selected="selectedList.indexOf(item.id) > -1"
-            @choose="onChoose"
-            :editMode="editMode"
-          ></book>
+          <div class="book" :key="index">
+            <book
+              :info="item"
+              class="item"
+              :selected="selectedList.indexOf(item.id) > -1"
+              @choose="onChoose"
+              :editMode="editMode"
+            ></book>
+          </div>
         </template>
       </div>
       <div class="empty" v-else>当前分组暂无书籍！</div>
@@ -105,10 +106,18 @@ export default {
       display: flex;
       flex-wrap: wrap;
       align-content: flex-start;
-      .item {
+      .book {
         width: 33.3%;
-        box-sizing: border-box;
-        padding: px2rem(15);
+        padding-bottom: 49%;
+        height: 0;
+        position: relative;
+        .item {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          box-sizing: border-box;
+          padding: px2rem(15);
+        }
       }
     }
     .empty {

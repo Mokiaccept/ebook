@@ -10,21 +10,22 @@
     <scroll :top="50" :bottom="0">
       <div class="item-wrapper">
         <template v-for="(item, index) in shelfList">
-          <book v-if="item.type === 1"
-            :key="index"
-            :info="item"
-            class="item"
-            :selected="selectedList.indexOf(item.id) > -1"
-            @choose="onChoose"
-            :editMode="editMode"
-          ></book>
-          <group
-            v-if="item.type === 2"
-            :key="index"
-            :info="item"
-            class="item"
-            :editMode="editMode"
-          ></group>
+          <div class="book" :key="index" v-if="item.type === 1">
+            <book
+              :info="item"
+              class="item"
+              :selected="selectedList.indexOf(item.id) > -1"
+              @choose="onChoose"
+              :editMode="editMode"
+            ></book>
+          </div>
+          <div class="group" v-if="item.type === 2" :key="index">
+            <group
+              :info="item"
+              class="item"
+              :editMode="editMode"
+            ></group>
+          </div>
         </template>
       </div>
     </scroll>
@@ -100,10 +101,31 @@ export default {
       display: flex;
       flex-wrap: wrap;
       align-content: flex-start;
-      .item {
+      .book {
         width: 33.3%;
-        box-sizing: border-box;
-        padding: px2rem(15);
+        padding-bottom: 49%;
+        height: 0;
+        position: relative;
+        .item {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          box-sizing: border-box;
+          padding: px2rem(15);
+        }
+      }
+      .group {
+        width: 33.3%;
+        padding-bottom: 49%;
+        height: 0;
+        position: relative;
+        .item {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          box-sizing: border-box;
+          padding: px2rem(15);
+        }
       }
     }
   }
