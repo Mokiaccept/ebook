@@ -1,6 +1,6 @@
 <template>
   <div class="group-header-wrapper">
-    <div class="iconfont icon-back" v-if="!editMode" @click="$router.push('/')">&#xe611;</div>
+    <div class="iconfont icon-back" v-if="!editMode" @click="$router.go(-1)">&#xe611;</div>
     <div class="change-name" v-else @click="$emit('change-name')">修改分组名</div>
     <div class="title-wrapper">
       <div class="title">{{title}}</div>

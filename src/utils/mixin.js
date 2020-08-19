@@ -471,6 +471,19 @@ export const shelfMixin = {
     onGroupNameClose () {
       this.showGroupName = false
     },
+    onClear () {
+      this.showPopup = true
+      this.popupTitle = '清除后书架及所有个人配置都将清空！'
+      this.popupOptions = [{
+        title: '确定',
+        important: true,
+        emit: 'clear-cache'
+      }, {
+        title: '取消',
+        important: false,
+        emit: 'close'
+      }]
+    },
     clearCache () {
       clearLocalForage()
       clearLocalStorage()
@@ -503,6 +516,7 @@ export const shelfMixin = {
           }
         })
       })
+      this.onCancel()
       const tasks = []
       books.forEach(item => {
         getLocalForage(item.fileName).then(book => {
@@ -510,6 +524,7 @@ export const shelfMixin = {
           tasks.push(this.download(item.fileName))
         })
       })
+      console.log(tasks)
       Promise.all(tasks).then(() => {
         this.toast('缓存成功')
       })

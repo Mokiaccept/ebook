@@ -5,7 +5,7 @@
       @edit="onEdit"
       @cancel="onCancel"
       :count="selectedList.length"
-      @clear="clearCache"
+      @clear="onClear"
     ></shelf-header>
     <scroll :top="50" :bottom="0">
       <div class="item-wrapper">
@@ -56,6 +56,7 @@
       :show="showPopup"
       @delete="deleteSelectedBooks"
       @close="hidePopup"
+      @clear-cache="clearCache"
     ></popup>
     <toast :text="toastText" ref="toast"></toast>
   </div>

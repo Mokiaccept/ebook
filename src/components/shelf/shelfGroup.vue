@@ -3,7 +3,10 @@
     <div class="books-wrapper">
       <div class="book-item-wrapper" v-if="getList.length > 0">
         <div class="book-item" v-for="(item, index) in getList" :key="index">
-          <div class="cover iconfont">&#xe633;</div>
+          <div class="cover" v-if="item.cover">
+            <img :src="item.cover" class="cover-img"/>
+          </div>
+          <div class="cover iconfont" v-else>&#xe633;</div>
         </div>
       </div>
       <div class="empty iconfont" v-else>&#xe60c;</div>
@@ -58,11 +61,17 @@ export default {
           width: 33.3%;
           height: 33.3%;
           .cover {
+            box-sizing: border-box;
+            padding: px2rem(3);
             height: 100%;
             width: 100%;
             @include center;
             font-size: px2rem(16);
             color: #333;
+            .cover-img {
+              width: 100%;
+              height: 100%;
+            }
           }
         }
       }

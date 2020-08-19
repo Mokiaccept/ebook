@@ -1,7 +1,10 @@
 <template>
   <div class="book-wrapper" @click="onClick">
     <div class="cover-wrapper">
-      <div class="cover iconfont">&#xe633;</div>
+      <div class="cover" v-if="info.cover">
+        <img :src="info.cover" class="cover-img"/>
+      </div>
+      <div class="cover iconfont" v-else>&#xe633;</div>
       <div class="choose iconfont" v-if="editMode" :class="{choosed: selected}">&#xe610;</div>
     </div>
     <div class="title">
@@ -48,6 +51,10 @@ export default {
         @include center;
         font-size: px2rem(30);
         color: #333;
+        .cover-img {
+          width: 100%;
+          height: 100%;
+        }
       }
       .choose {
         position: absolute;
@@ -59,7 +66,7 @@ export default {
         color: #ccc;
         font-size: px2rem(20);
         &.choosed {
-          color: #333;
+          color: #4aabff;
         }
       }
     }
