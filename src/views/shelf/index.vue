@@ -1,6 +1,12 @@
 <template>
   <div class="shelf-wrapper">
-    <shelf-header :editMode="editMode" @edit="onEdit" @cancel="onCancel" :count="selectedList.length"></shelf-header>
+    <shelf-header
+      :editMode="editMode"
+      @edit="onEdit"
+      @cancel="onCancel"
+      :count="selectedList.length"
+      @clear="clearCache"
+    ></shelf-header>
     <scroll :top="50" :bottom="0">
       <div class="item-wrapper">
         <template v-for="(item, index) in shelfList">

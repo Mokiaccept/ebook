@@ -2,9 +2,19 @@ import { FONT_SIZE_LIST, themeList } from './bookConfig'
 import { mapGetters, mapActions } from 'vuex'
 import { px2rem, flatten, deepClone } from './utils'
 import {
+  setLocalForage,
+  getLocalForage,
+  removeLocalForage,
+  clearLocalForage
+} from './localForage.js'
+import Epub from 'epubjs'
+import {
+  getLocation,
   saveLocation,
   saveDefaultFontSize,
-  saveDefaultTheme
+  saveDefaultTheme,
+  saveShelf,
+  clearLocalStorage
 } from './localStorage'
 export const ebookMixin = {
   data () {
@@ -164,6 +174,46 @@ export const ebookMixin = {
     },
     toggleShowInfo () {
       this.setShowInfo(!this.showInfo)
+    },
+    parseBook () {
+      this.setRendition(this.book.renderTo('read', {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        methods: 'default'
+      })).then(() => {
+        this.rendition.display()
+        const location = getLocation(this.$route.params.fileName)
+        if (location) this.jumpTo(location)
+        return this.setThemes(this.rendition.themes)
+      }).then(() => {
+        this.registerTheme()
+        this.changeTheme(this.defaultTheme)
+        this.changeFontSize(this.defaultFontSize)
+      })
+      this.book.ready.then(() => {
+        return this.setNavigation(this.book.navigation)
+      }).then(() => {
+        this.initContentList()
+        return this.book.locations || this.book.locations.generate()
+      }).then(result => {
+        this.setLocations(this.book.locations)
+        this.setBookAvailable(true)
+      })
+      this.book.loaded.metadata.then(metadata => {
+        this.setMetadata(metadata)
+      })
+      this.book.loaded.cover.then(cover => {
+        this.book.archive.createUrl(cover).then(url => {
+          this.setCover(url)
+        })
+      })
+    },
+    async initEpub () {
+      let book
+      const fileName = this.$route.params.fileName
+      book = await getLocalForage(`${fileName}`)
+      book = book || new Epub(`/${this.$route.params.fileName}.epub`)
+      this.setBook(book).then(this.parseBook)
     }
   }
 }
@@ -272,6 +322,7 @@ export const shelfMixin = {
         }
       }
       this.setShelfList(list)
+      this.saveShelf(list)
       this.onCancel()
       this.onMoveToClose()
     },
@@ -328,7 +379,9 @@ export const shelfMixin = {
           return book.id !== id
         })
         return true
-      }))
+      })).then(() => {
+        saveShelf(this.shelfList)
+      })
     },
     deleteSelectedBooks () {
       this.selectedList.forEach(id => {
@@ -362,6 +415,7 @@ export const shelfMixin = {
       })
       list = list.concat(books)
       this.setShelfList(list)
+      saveShelf(list)
       this.onCancel()
       this.onMoveToClose()
     },
@@ -394,18 +448,25 @@ export const shelfMixin = {
         }
       })
       this.setShelfList(list)
+      saveShelf(list)
       this.onGroupNameClose()
       this.hidePopup()
     },
     onDeleteGroup () {
       this.setShelfList(this.shelfList.filter(item => {
         return item.id !== parseInt(this.$route.params.id)
-      }))
+      })).then(() => {
+        saveShelf(this.shelfList)
+      })
       this.$router.push('/')
       console.log(this.shelfList)
     },
     onGroupNameClose () {
       this.showGroupName = false
+    },
+    clearCache () {
+      clearLocalForage()
+      clearLocalStorage()
     }
   }
 }

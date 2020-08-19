@@ -43,7 +43,7 @@ export function saveDefaultFontSize (defaultFontSize) {
 }
 
 export function getShelf () {
-  return getLocalStorage('shelf')
+  return JSON.parse(getLocalStorage('shelf'))
 }
 
 export function saveShelf (shelf) {

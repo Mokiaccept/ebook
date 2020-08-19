@@ -6,7 +6,7 @@ const defaultTheme = getDefaultTheme() || 0
 const defaultFontSize = getDefaultFontSize() || 20
 const book = {
   state: {
-    ifShowHeaderAndMenu: 'false',
+    ifShowHeaderAndMenu: false,
     defaultFontSize,
     chooseId: -1,
     defaultTheme,

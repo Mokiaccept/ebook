@@ -1,6 +1,6 @@
 <template>
   <div class="shelf-header-wrapper">
-    <div class="clear">清除缓存</div>
+    <div class="clear" @click="$emit('clear')">清除缓存</div>
     <div class="title-wrapper">
       <div class="title">书架</div>
       <div class="count" v-if="editMode">已选择{{count}}本</div>
