@@ -260,7 +260,8 @@ export const shelfMixin = {
       popupTitle: '',
       popupOptions: [],
       showPopup: false,
-      showGroupName: false
+      showGroupName: false,
+      toastText: ''
     }
   },
   methods: {
@@ -389,6 +390,7 @@ export const shelfMixin = {
       })
       this.hidePopup()
       this.onCancel()
+      this.toast('移除书架成功')
     },
     onMoveOut () {
       let list = deepClone(this.shelfList)
@@ -467,6 +469,12 @@ export const shelfMixin = {
     clearCache () {
       clearLocalForage()
       clearLocalStorage()
+    },
+    onDownload () {
+    },
+    toast (text) {
+      this.toastText = text
+      this.$refs.toast.show()
     }
   }
 }

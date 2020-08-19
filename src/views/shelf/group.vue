@@ -65,6 +65,7 @@
       @close="onGroupNameClose"
       @submit="onChangeGroupName"
     ></input-box>
+    <toast :text="toastText" ref="toast"></toast>
   </div>
 </template>
 
@@ -77,6 +78,7 @@ import GroupMenu from '@/components/shelf/shelfMenu.vue'
 import MoveTo from '@/components/shelf/moveTo.vue'
 import inputBox from '@/components/shelf/inputBox'
 import Popup from '@/components/shelf/popup'
+import Toast from '@/components/Toast'
 export default {
   mixins: [shelfMixin],
   components: {
@@ -86,7 +88,8 @@ export default {
     GroupMenu,
     MoveTo,
     inputBox,
-    Popup
+    Popup,
+    Toast
   }
 }
 

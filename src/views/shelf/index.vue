@@ -34,6 +34,7 @@
       :iconActived="selectedList.length > 0"
       @move="onMove"
       @delete="onDelete"
+      @download="onDownload"
     ></shelf-menu>
     <move-to
       :groupList="groupList"
@@ -56,6 +57,7 @@
       @delete="deleteSelectedBooks"
       @close="hidePopup"
     ></popup>
+    <toast :text="toastText" ref="toast"></toast>
   </div>
 </template>
 
@@ -69,6 +71,7 @@ import ShelfMenu from '@/components/shelf/shelfMenu.vue'
 import MoveTo from '@/components/shelf/moveTo.vue'
 import NewGroup from '@/components/shelf/inputBox'
 import Popup from '@/components/shelf/popup'
+import Toast from '@/components/Toast'
 export default {
   mixins: [shelfMixin],
   components: {
@@ -79,7 +82,8 @@ export default {
     ShelfMenu,
     MoveTo,
     NewGroup,
-    Popup
+    Popup,
+    Toast
   }
 }
 
