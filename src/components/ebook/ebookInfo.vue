@@ -3,7 +3,7 @@
     <transition name="scale">
       <div class="info" v-if="showInfo">
         <div class="cover-wrapper">
-          <img :src="cover" class="cover"/>
+          <img v-lazy="cover" class="cover"/>
         </div>
         <div class="title">
           《{{metadata.title}}》

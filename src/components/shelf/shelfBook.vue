@@ -2,7 +2,7 @@
   <div class="book-wrapper" @click="onClick">
     <div class="cover-wrapper">
       <div class="cover" v-if="info.cover">
-        <img :src="info.cover" class="cover-img"/>
+        <img v-lazy="info.cover" class="cover-img"/>
       </div>
       <div class="cover iconfont" v-else>&#xe633;</div>
       <div class="choose iconfont" v-if="editMode" :class="{choosed: selected}">&#xe610;</div>
@@ -77,6 +77,7 @@ export default {
       color: #444;
       width: 100%;
       font-size: px2rem(12);
+      line-height: px2rem(14);
       font-weight: bold;
       @include ellipsis;
     }

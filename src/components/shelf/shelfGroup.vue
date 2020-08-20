@@ -4,7 +4,7 @@
       <div class="book-item-wrapper" v-if="getList.length > 0">
         <div class="book-item" v-for="(item, index) in getList" :key="index">
           <div class="cover" v-if="item.cover">
-            <img :src="item.cover" class="cover-img"/>
+            <img v-lazy="item.cover" class="cover-img"/>
           </div>
           <div class="cover iconfont" v-else>&#xe633;</div>
         </div>

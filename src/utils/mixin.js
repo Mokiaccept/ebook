@@ -490,7 +490,7 @@ export const shelfMixin = {
       location.reload()
     },
     download (fileName) {
-      axios.create({
+      return axios.create({
         baseUrl: '/',
         method: 'get',
         responseType: 'blob',
@@ -524,7 +524,6 @@ export const shelfMixin = {
           tasks.push(this.download(item.fileName))
         })
       })
-      console.log(tasks)
       Promise.all(tasks).then(() => {
         this.toast('缓存成功')
       })

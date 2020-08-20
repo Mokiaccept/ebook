@@ -22,6 +22,7 @@ export default {
     left: 0;
     z-index: 100;
     height: px2rem(20);
+    line-height: px2rem(20);
     width: 100%;
     @include left;
     box-sizing: border-box;
