@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <transition :name="transitionName">
-      <router-view v-if="isRouterAlive"/>
-    </transition>
+    <keep-alive>
+      <transition :name="transitionName">
+        <router-view v-if="isRouterAlive"/>
+      </transition>
+    </keep-alive>
   </div>
 </template>
 

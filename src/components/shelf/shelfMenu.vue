@@ -42,6 +42,7 @@ export default {
     bottom: 0;
     left: 0;
     display: flex;
+    background: white;
     .menu-item {
       flex: 1;
       height: 100%;
